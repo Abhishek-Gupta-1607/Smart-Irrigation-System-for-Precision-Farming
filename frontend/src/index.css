@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-agri-dark text-slate-100 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-agri-card/80 backdrop-blur-md border border-slate-700/50 rounded-2xl shadow-xl;
+  }
+  
+  .btn-primary {
+    @apply bg-agri-primary hover:bg-emerald-400 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 shadow-lg shadow-agri-primary/30 transform hover:-translate-y-0.5;
+  }
+}
