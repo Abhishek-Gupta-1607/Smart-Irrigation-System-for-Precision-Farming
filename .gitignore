@@ -41,3 +41,10 @@ frontend/dist/
 
 # Docker
 postgres_data/
+
+# Datasets and AI Models
+backend/datasets/
+*.pt
+*.onnx
+*.h5
+*.pth

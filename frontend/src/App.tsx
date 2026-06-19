@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Dashboard from './Dashboard';
+import FieldMonitor from './FieldMonitor';
 import { Leaf, LayoutDashboard, Map as MapIcon, UploadCloud, Settings, Menu, X } from 'lucide-react';
 
 const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (val: boolean) => void }) => {
@@ -12,6 +13,7 @@ const Sidebar = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (val: bool
     { name: 'Farm Zones', path: '/zones', icon: <MapIcon size={20} /> },
     { name: 'Settings', path: '/settings', icon: <Settings size={20} /> },
   ];
+
 
   return (
     <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-agri-card border-r border-slate-700 transition-transform duration-300 ease-in-out transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0`}>
@@ -88,14 +90,7 @@ const App = () => {
           <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 z-10">
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/monitor" element={
-                <div className="glass-card p-8 text-center flex flex-col items-center justify-center min-h-[400px]">
-                  <UploadCloud size={64} className="text-agri-primary mb-4" />
-                  <h2 className="text-2xl font-bold mb-2">AI Field Monitoring</h2>
-                  <p className="text-slate-400 max-w-md mb-6">Upload drone or smartphone images of your crops to run the full AI diagnostic pipeline (Disease, Weeds, Health, Moisture).</p>
-                  <button className="btn-primary">Upload Field Image</button>
-                </div>
-              } />
+              <Route path="/monitor" element={<FieldMonitor />} />
               <Route path="/zones" element={<div className="glass-card p-8"><h2>Farm Zones Map (Leaflet Integration Here)</h2></div>} />
               <Route path="/settings" element={<div className="glass-card p-8"><h2>System Settings</h2></div>} />
             </Routes>

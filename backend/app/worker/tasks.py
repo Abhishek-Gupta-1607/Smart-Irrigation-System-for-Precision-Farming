@@ -4,8 +4,11 @@ from app.services.ml.resnet_service import ResnetService
 from app.services.ml.opencv_service import OpenCVService
 from app.services.ml.decision_engine import DecisionEngine
 
+from app.services.weather_service import WeatherService
+
 yolo = YoloService()
 resnet = ResnetService()
+weather_api = WeatherService()
 
 @celery_app.task(name="app.worker.tasks.process_image")
 def process_image(image_path: str, zone_id: int):
@@ -24,8 +27,8 @@ def process_image(image_path: str, zone_id: int):
     # 5. Leaf Health
     health_result = OpenCVService.analyze_leaf_health(image_path)
     
-    # Mock Weather Forecast
-    weather = {"rain_forecast": 0.0, "temperature": 25.0}
+    # Fetch Live Weather
+    weather = weather_api.get_weather_forecast(lat=28.6139, lon=77.2090) # Default to Delhi for now
     
     # 6. Decision Engine
     irrigation_rec = DecisionEngine.generate_irrigation_recommendation(
