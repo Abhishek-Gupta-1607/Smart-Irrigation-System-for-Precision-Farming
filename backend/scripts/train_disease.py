@@ -2,12 +2,12 @@ import os
 from ultralytics import YOLO
 
 def main():
-    # Path to your plant village dataset
-    dataset_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../datasets/plant_village"))
+    # Path to your miniature plant village dataset (faster training)
+    dataset_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../datasets/plant_village_mini"))
     
     if not os.path.exists(dataset_dir) or not os.listdir(dataset_dir):
         print(f"Error: Dataset directory {dataset_dir} is empty or doesn't exist.")
-        print("Please download the PlantVillage dataset from Kaggle and extract it here.")
+        print("Please run `python create_mini_dataset.py` first.")
         return
 
     print("Initializing YOLOv8 Classification Model for Disease Detection...")
@@ -18,12 +18,12 @@ def main():
     # Train the model
     results = model.train(
         data=dataset_dir,
-        epochs=50,  # Adjust epochs based on time and hardware
+        epochs=3,   # Train for 3 epochs for a quick test
         imgsz=224,  # Standard size for classification
-        batch=32,
+        batch=16,   # Smaller batch size for laptop CPU
         name="disease_detection_model",
         project="runs/classify",
-        device="cpu"  # Change to "cuda" if you have an NVIDIA GPU or "mps" on Mac
+        device="cpu"  # Force CPU for MacBook
     )
 
     print("Training complete!")
