@@ -6,12 +6,21 @@ try:
 except ImportError:
     YOLO = None
 
+import glob
+
 class YoloService:
+    def _get_latest_model(self, pattern):
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        search_pattern = os.path.join(base_dir, "**", pattern, "**", "weights", "best.pt")
+        files = glob.glob(search_pattern, recursive=True)
+        if not files:
+            return ""
+        return max(files, key=os.path.getmtime)
+
     def __init__(self):
-        # Paths where we expect the training scripts to save the weights
-        self.disease_model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../scripts/runs/classify/disease_detection_model/weights/best.pt"))
-        self.weed_model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../scripts/runs/detect/weed_detection_model/weights/best.pt"))
-        
+        # Dynamically find the latest trained weights in the project
+        self.disease_model_path = self._get_latest_model("disease_detection_model*")
+        self.weed_model_path = self._get_latest_model("weed_detection_model*")
         self.disease_model = None
         self.weed_model = None
         
